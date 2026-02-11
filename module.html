@@ -1,0 +1,487 @@
+<head><title>Synop</title><meta name="viewport" content="width=device-width, initial-scale=0.5"><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous"><link rel="icon" type="image/x-icon" href="favicon.ico"><style>input[type="number"]:focus,input[type="text"]:focus,select:focus {
+		border-color: rgba(126, 239, 104, 0.8);
+		box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(126, 239, 104, 0.6);
+		outline: 0 none;
+	}
+	@media only screen and (max-width: 900px)
+	{
+		.firstdiv{
+			margin: 20px;
+			float: left;
+			width: 15%;
+		}
+		.seconddiv{
+			margin: 20px;
+			float: left;
+			width: 40%;
+		}
+		.thirddiv{
+			margin: 20px;
+			float: left;
+			width: 20%;
+		}
+	}
+	@media (min-width: 901px)
+	{
+		.firstdiv{
+			margin: 20px;
+			float: left;
+			width:15%;
+			}
+		.seconddiv{
+			margin: 20px;
+			float: left;
+			width: 40%;
+		}
+		.thirddiv{
+			margin: 20px;
+			float: left;
+		}
+	}
+
+	input[type=number]::-webkit-inner-spin-button, 
+	input[type=number]::-webkit-outer-spin-button { 
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+		margin: 0; 
+	}
+
+	input[type=text] {
+		text-align: center;
+		border-radius: 5px;
+		border: 1px solid #cdcdcd;
+		padding: 5px;
+		height: 30px;
+	}
+	input[type=number] {
+	  padding: 5px;
+	  height: 30px;
+	  position: relative;
+	  left: 0;
+	  outline: none;
+	  border: 1px solid #cdcdcd;
+	  border-radius: 5px;
+	  border-color: rgba(0, 0, 0, .15);
+	  background-color: white;
+	  text-align: center;
+	  font-size: 16px;
+	}
+	.nav-item{
+	margin: -5px;
+	}
+	.active
+	{
+	  background: #455564;
+	  color: #fff;
+	  border-radius: 30px;
+	  display: inline-block;
+	}
+	a:hover>.colorspan
+	{
+	  background: #007bff;
+	  color: #fff;
+	  border-radius: 30px;
+	  display: inline-block;
+	}
+	li>a>span
+	{
+		padding: 3px 8px;
+		display: inline-block;
+	}
+	
+	</style></head>
+
+
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <a class="navbar-brand" style="margin-left: 10px;" href="mslp.php">Synop</a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="mslp.php"><span class="colorspan">Home</span></a>
+      </li>
+      <!--<li class="nav-item">
+        <a class="nav-link" href="jscode.txt"><span class="colorspan">jscode</span></a>
+      </li>-->
+      <li class="nav-item">
+        <a class="nav-link" href="loaddata.php"><span class="colorspan">load_data</span></a>
+      </li>
+	  <li class="nav-item">
+        <a class="nav-link" href="module.html"><span class="colorspan active">calculate</span></a>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span class="colorspan dropdown-toggle">Models</span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="https://charts.ecmwf.int/products/opencharts_meteogram?epsgram=classical_15d&lat=33.28&lon=75.34">ECMWF</a><div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="https://nwp.imd.gov.in/meteo_all/scripts/BANIHAL.php">NWP</a><div class="dropdown-divider"></div>
+		  <a class="dropdown-item" href="https://nwp.imd.gov.in/gfs/gfs_meteograms/BNL-meteogram.gif">meteogram</a>
+        </div>
+      </li>
+	  
+	  <li class="nav-item">
+        <a class="nav-link" href="https://mmronline.imdpune.gov.in/mmronline/" target="_blank"><span class="colorspan">MMR</span></a>
+      </li>
+	  
+	  <li class="nav-item">
+        <a class="nav-link" href="https://amssdelhi.gov.in/sendata/sendata.php" target="_blank"><span class="colorspan">AMSS</span></a>
+      </li>
+	  
+
+    </ul>
+	<span class="ms-auto" id=timeDisplay style="color: white; margin: 10px;">
+        <script>document.getElementById('timeDisplay').innerHTML = new Date().toLocaleString();</script>
+      </span>
+  </div>
+</nav>
+<script>
+function cal_24h_ff() {
+	var anemo1 = document.getElementById("anemo1").value;
+	var anemo2 = document.getElementById("anemo2").value;
+	 if ((anemo1 != "") && (anemo2 != ""))
+	 {
+	 var diff = eval(anemo2/10) - eval(anemo1/10);
+	 var inkmph =  Math.round((diff)/24);
+	 var inknots = Math.round(((diff)/24) * 0.54);
+	 document.getElementById("ffknots").innerHTML = "<font color=red>"+anemo2 + "-" + anemo1 + "<br>" + inkmph + " km / " + inknots + " kt</font>";
+	 ffknotskmph=inkmph;
+	 ffknotsknots=inknots;
+	 }
+}
+
+var big=`DRY BULB TEMP °C,820,822,824,826,828,830,832,834,836,838,840,842,844,846,848,850,852
+-12.9 to -12.0,1353,1371,1390,1409,1428,1446,1465,1483,1502,1520,1538,1557,1575,1593,1611,1629,1647
+-11.9 to -11.0,1352,1370,1389,1408,1427,1445,1464,1483,1501,1520,1538,1556,1575,1593,1611,1629,1647
+-10.9 to -10.0,1351,1369,1388,1407,1426,1445,1463,1482,1501,1519,1538,1556,1574,1593,1611,1629,1647
+-9.9 to -9.0,1349,1368,1387,1406,1425,1444,1463,1482,1500,1519,1537,1556,1574,1593,1611,1629,1648
+-8.9 to -8.0,1348,1368,1387,1406,1424,1443,1462,1481,1500,1518,1537,1556,1574,1593,1611,1629,1648
+-7.9 to -7.0,1347,1367,1386,1405,1424,1443,1462,1480,1499,1518,1537,1555,1574,1592,1611,1629,1648
+-6.9 to -6.0,1346,1366,1385,1404,1423,1442,1461,1480,1499,1518,1536,1555,1574,1592,1611,1629,1648
+-5.9 to -5.0,1345,1365,1384,1403,1422,1441,1460,1479,1498,1517,1536,1555,1573,1592,1611,1629,1648
+-4.9 to -4.0,1344,1364,1383,1402,1421,1441,1460,1479,1498,1517,1536,1554,1573,1592,1611,1629,1648
+-3.9 to -3.0,1343,1363,1382,1401,1421,1440,1459,1478,1497,1516,1535,1554,1573,1592,1611,1629,1648
+-2.9 to -2.0,1342,1362,1381,1400,1420,1439,1458,1478,1497,1516,1535,1554,1573,1592,1611,1629,1648
+-1.9 to -1.0,1341,1361,1380,1400,1419,1438,1458,1477,1496,1515,1535,1554,1573,1592,1610,1629,1648
+-0.9 to 0.0,1340,1360,1379,1399,1418,1438,1457,1476,1496,1515,1534,1553,1572,1591,1610,1629,1648
+0.1 to 1.0,1339,1359,1378,1398,1418,1437,1457,1476,1495,1515,1534,1553,1572,1591,1610,1629,1648
+1.1 to 2.0,1338,1358,1377,1397,1417,1436,1456,1475,1495,1514,1534,1553,1572,1591,1610,1629,1648
+2.1 to 3.0,1337,1357,1376,1396,1416,1436,1455,1475,1494,1514,1533,1552,1572,1591,1610,1629,1648
+3.1 to 4.0,1336,1356,1376,1395,1415,1435,1455,1474,1494,1513,1533,1552,1572,1591,1610,1629,1648
+4.1 to 5.0,1335,1355,1375,1395,1414,1434,1454,1474,1493,1513,1532,1552,1571,1591,1610,1629,1648
+5.1 to 6.0,1334,1354,1374,1394,1414,1434,1453,1473,1493,1513,1532,1552,1571,1591,1610,1629,1649
+6.1 to 7.0,1332,1353,1373,1393,1413,1433,1453,1473,1492,1512,1532,1551,1571,1590,1610,1629,1649
+7.1 to 8.0,1331,1352,1372,1392,1412,1432,1452,1472,1492,1512,1531,1551,1571,1590,1610,1629,1649
+8.1 to 9.0,1330,1351,1371,1391,1411,1431,1451,1471,1491,1511,1531,1551,1571,1590,1610,1629,1649
+9.1 to 10.0,1329,1350,1370,1390,1411,1431,1451,1471,1491,1511,1531,1551,1570,1590,1610,1629,1649
+10.1 to 11.0,1328,1349,1369,1389,1410,1430,1450,1470,1490,1510,1530,1550,1570,1590,1610,1629,1649
+11.1 to 12.0,1327,1348,1368,1389,1409,1429,1450,1470,1490,1510,1530,1550,1570,1590,1610,1629,1649
+12.1 to 13.0,1326,1347,1367,1388,1408,1429,1449,1469,1489,1510,1530,1550,1570,1590,1609,1629,1649
+13.1 to 14.0,1325,1346,1366,1387,1407,1428,1448,1469,1489,1509,1529,1549,1569,1589,1609,1629,1649
+14.1 to 15.0,1324,1345,1365,1386,1407,1427,1448,1468,1488,1509,1529,1549,1569,1589,1609,1629,1649
+15.1 to 16.0,1323,1344,1365,1385,1406,1427,1447,1468,1488,1508,1529,1549,1569,1589,1609,1629,1649
+16.1 to 17.0,1322,1343,1364,1384,1405,1426,1446,1467,1487,1508,1528,1549,1569,1589,1609,1629,1649
+17.1 to 18.0,1321,1342,1363,1384,1404,1425,1446,1466,1487,1507,1528,1548,1569,1589,1609,1629,1649
+18.1 to 19.0,1320,1341,1362,1383,1404,1424,1445,1466,1486,1507,1528,1548,1568,1589,1609,1629,1649
+19.1 to 20.0,1319,1340,1361,1382,1403,1424,1445,1465,1486,1507,1527,1548,1568,1589,1609,1629,1650
+20.1 to 21.0,1318,1339,1360,1381,1402,1423,1444,1465,1486,1506,1527,1547,1568,1588,1609,1629,1650
+21.1 to 22.0,1317,1338,1359,1380,1401,1422,1443,1464,1485,1506,1527,1547,1568,1588,1609,1629,1650
+22.1 to 23.0,1316,1337,1358,1379,1401,1422,1443,1464,1485,1505,1526,1547,1568,1588,1609,1629,1650
+23.1 to 24.0,1314,1336,1357,1379,1400,1421,1442,1463,1484,1505,1526,1547,1567,1588,1609,1629,1650
+24.1 to 25.0,1313,1335,1356,1378,1399,1420,1441,1462,1484,1505,1525,1546,1567,1588,1609,1629,1650
+25.1 to 26.0,1312,1334,1355,1377,1398,1419,1441,1462,1483,1504,1525,1546,1567,1588,1609,1629,1650
+26.1 to 27.0,1311,1333,1354,1376,1397,1419,1440,1461,1483,1504,1525,1546,1567,1588,1609,1629,1650
+27.1 to 28.0,1310,1332,1354,1375,1397,1418,1439,1461,1482,1503,1524,1546,1567,1588,1608,1629,1650
+28.1 to 29.0,1309,1331,1353,1374,1396,1417,1439,1460,1482,1503,1524,1545,1566,1587,1608,1629,1650
+29.1 to 30.0,1308,1330,1352,1373,1395,1417,1438,1460,1481,1502,1524,1545,1566,1587,1608,1629,1650
+30.1 to 31.0,1307,1329,1351,1373,1394,1416,1438,1459,1481,1502,1523,1545,1566,1587,1608,1629,1650
+31.1 to 32.0,1306,1328,1350,1372,1394,1415,1437,1459,1480,1502,1523,1545,1566,1587,1608,1629,1650
+32.1 to 33.0,1305,1327,1349,1371,1393,1415,1436,1458,1480,1501,1523,1544,1566,1587,1608,1629,1650
+33.1 to 34.0,1304,1326,1348,1370,1392,1414,1436,1457,1479,1501,1522,1544,1565,1587,1608,1629,1650
+34.1 to 35.0,1303,1325,1347,1369,1391,1413,1435,1457,1479,1500,1522,1543,1565,1587,1608,1629,1651
+35.1 to 36.0,1302,1324,1346,1368,1390,1412,1434,1456,1478,1500,1522,1543,1565,1586,1608,1629,1651
+36.1 to 37.0,1301,1323,1345,1368,1390,1412,1434,1456,1478,1500,1521,1543,1565,1586,1608,1629,1651`;
+
+
+var small = `SLP,18,19,20,21,22
+0.1,0.9,1.0,1.0,1.0,1.1
+0.2,1.8,1.9,2.0,2.1,2.2
+0.3,2.7,2.9,3.0,3.1,3.3
+0.4,3.6,3.8,4.0,4.2,4.4
+0.5,4.5,4.7,5.0,5.3,5.5
+0.6,5.4,5.7,6.0,6.3,6.6
+0.7,6.3,6.7,7.0,7.3,7.7
+0.8,7.2,7.6,8.0,8.4,8.8
+0.9,8.1,8.5,9.0,9.5,9.9
+1.0,9.0,9.5,10.0,10.5,11
+1.1,9.9,10.5,11.0,11.5,12.1
+1.2,10.8,11.4,12.0,12.6,13.2
+1.3,11.7,12.3,13.0,13.7,14.3
+1.4,12.6,13.3,14.0,14.7,15.4
+1.5,13.5,14.3,15.0,15.7,16.5
+1.6,14.4,15.2,16.0,16.8,17.6
+1.7,15.3,16.1,17.0,17.9,18.7
+1.8,16.2,17.1,18.0,18.9,19.8
+1.9,17.1,18.5,19.0,19.9,20.9
+2.0,18.0,19.0,20.0,21.0,22.0`;
+
+function diffcal(diff,diff1)
+{
+	var colheader = "",row="",pivot="",result;
+	const smallrows = small.trim().split('\n');
+	for(var i=1;i<smallrows.length;i++)
+	{
+		row = smallrows[i].trim().split(',');
+		colheader = row[0];
+		
+		if(diff==colheader)
+		{
+			pivot=diff1-18;
+			result=row[parseInt(pivot)+1];
+			return result;
+		}
+	}
+}
+
+function cal_mslp()
+{
+	var td = document.getElementById("td").value;
+	td = eval(td)-0.1;
+	var slp = document.getElementById("slp").value;
+	var row="",rowheader="",diff="",mslp="",pivot="";
+	
+	const bigrows = big.trim().split('\n');
+	for(var i=1;i<bigrows.length;i++)
+	{
+		row = bigrows[i].trim().split(',');
+		rowheader = row[0].trim().split(" to ");
+		if(parseFloat(td)>=parseFloat(rowheader[0]) && parseFloat(td)<=parseFloat(rowheader[1]))
+		{
+			diff=(slp%2).toFixed(1);
+			console.log(diff);
+			if(diff == "0.0" || diff == "0")
+			{
+				mslp = slp;
+				pivot = Math.floor((slp-820)/2).toFixed(0);
+				
+				mslp = row[parseInt(pivot)+1];
+				console.log("1st part = " + mslp);
+				return mslp;
+			}
+			else
+			{
+				mslp=slp-diff;
+				pivot = Math.floor((slp-820)/2).toFixed(0);
+				console.log("pivot=" + pivot);
+				mslp = row[parseInt(pivot)+1];
+				console.log("2nd part = " + mslp);
+				var nextval = row[parseInt(pivot)+2];
+				mslp = parseFloat(mslp) + parseFloat(diffcal(diff,nextval-mslp));
+				console.log(mslp);
+				return mslp;
+			}
+		}
+	}
+}
+
+function cal_tdrh() 
+{	
+	var msl_height=1623.70; var dp=0; var rh=0; var vp=0;
+	var td = document.getElementById("td").value;
+	var tw = document.getElementById("tw").value;
+
+	if((td!='')  && (tw!='') && (msl_height!='') )
+	{
+	var h = eval(msl_height);
+	var TD = eval(td)-0.0; //dont change it even value required
+	var TW = eval(tw)-0.0;
+	
+	if( h < 457.2) 					{ var P=1000; }
+	if( h >= 457.2 && h < 1524) 	{ var P=900; }
+	if( h >= 1524 && h < 2743.2) 	{ var P=800; }
+	if( h >= 2743.2) 				{ var P=700; }
+
+	var A = 17.26; 	var B = 35.86;
+	//-------------------------------------------------------
+	var TDK	=	TD + 273.16;
+	// alert(TDK);
+	
+	if(TDK < 273.16)	{ var A = 21.87;	var B = 7.66; }
+	var A1 = A * ( (TDK - 273.16) / (TDK - B) );
+	var ES = 6.11 * Math.exp(A1);
+	//-------------------------------------------------------
+	var QS = 0.622 * ( ES /(P-0.378 * ES) );
+	//-------------------------------------------------------
+	var TWK = TW + 273.16; 
+	if(TWK < 273.16)	{ var A=21.87;	var B=7.66; }
+	var A2 = A * ( (TWK - 273.16) / (TWK - B) );
+	var EWS = 6.11 * Math.exp(A2);
+	//-------------------------------------------------------
+	if(TW < 0)
+	{	var C = P * ( 0.480*(TD-TW)/(671-TW) );	}
+	else
+	{	var C = P * ( 0.480*(TD-TW)/(610-TW) );	}	
+	var E = EWS - C;
+	var E1 = (EWS).toFixed(1) - (C).toFixed(1);
+	//alert(E);
+	//-------------------------------------------------------
+	var DP;
+	var RH;
+	if(E < 0)
+	{
+		RH = 1234;
+		DP = 1234;
+		
+		if(TD == TW) {  DP = TD; }
+		if(RH > 100) {  RH = 1234; }
+	}
+	else
+	{
+		RH = E * (100/ES);
+		if(RH > 100) {  DP = 1234; }
+		if(TD == TW) { DP = TD; }
+	} 
+	//-------------------------------------------------------
+	var Q = 0.622 * ( E /(P-0.378 * E) );
+
+	var TDD = TDK;
+	var XT = TDD;
+	 A=17.26;
+	 B=35.86;
+	// alert(A); 
+	if(XT < 273.16)	{A=21.87; B=7.66;}
+	var AA = A * (XT - 273.16)/(XT - B);
+	var EDS = 6.11 * Math.exp(AA);
+	var QDS = 0.622 * EDS/(P - 0.378 * EDS);
+	//alert(QDS);
+	TDD = TDD - 0.01;
+	while(QDS > Q)
+	{
+	 XT = TDD;
+	 A = 17.26;
+	 B = 35.86; //alert(XT);
+	 if(XT < 273.16)	{A=21.87; B=7.66;}
+	 AA = A * (XT - 273.16)/(XT - B);
+	 EDS = 6.11 * Math.exp(AA);
+	 QDS = 0.622 * EDS / (P - 0.378 * EDS);
+	TDD = TDD - 0.01;
+	//alert(QDS + "--" + TDD);
+	}
+	//alert(TDD);	
+	 DP = TDD + 0.01 - 273.16;
+	 console.log("TD = "+TD);
+	 console.log("TW = "+TW);
+	 console.log("DP = "+DP);
+	 console.log("RH = "+RH);
+	 console.log("VP = "+E1);
+	//alert(DP);
+	//-------------------------------------------------------
+	if (DP=='1234' || RH=='1234') 
+	{ document.getElementById("cal").innerHTML = "DP=null<br>RH=null<br>VP=null";} 
+	else 
+	{ 
+		dp = (DP).toFixed(1);
+		rh = Math.round(RH);
+		vp = (E1).toFixed(1);
+		mslp = cal_mslp();
+		document.getElementById("cal").innerHTML = "<br><font color=blue>Dew Point</font> : <font color=green><b>"+(DP).toFixed(1)+"</b></font><br><font color=blue>R-Humidity</font> : <font color=green><b>"+Math.round(RH)+"</b> %</font><br><font color=blue>V-Pressure</font> : <font color=green><b>"+(E1).toFixed(1)+"</b><br><font color=blue>MSLP</font> : <font color=raddish><b>"+mslp+"</b></font>"; 
+		
+		//document.getElementById("cal").innerHTML = "<br><table border=0><tr><td><font color=blue>Dew Point :</font></td><td><font color=green><b>"+(DP).toFixed(1)+"</b></font></td></tr><tr><td><font color=blue>Relative Humidity :</font></td><td><font color=green><b>"+Math.round(RH)+"</b> %</font></td></tr><tr><td><font color=blue>Vapour Pressure :</font></td><td><font color=green><b>"+(E1).toFixed(1)+"</b></font></td></tr></table><br><button class="btn" onclick="copyjscode()">Copy js</button>";
+	
+	}
+	//-------------------------------------------------------	
+	}
+}
+
+</script>
+<div><h2><center><font color=green>calculate</font></center></h2><br></div>
+<div>
+<div style="margin-left:30px; padding:20px; float:left; background: #e5f5d2;">
+	<p><h4><b><font color=#0d6efd>Avg Wind</font></b></h4></p>
+<font color=green>Anemometer1 (old)</font> :<br>
+			<input type=number class=dataentries id=anemo1 style="width: 188px;" value=40 onFocus="this.value = null; this.value=39;"><br>
+			<br><font color=green>Anemometer2 (new)</font> :<br>
+			<input type=number class=dataentries id=anemo2 style="width: 188px;" value=40 onFocus="this.value = null; this.value=39;"><br><br>
+			<button data-mdb-ripple-inittype="submit" name="submit" value="submit" class="btn btn-primary dataentries" onclick="cal_24h_ff()">calculate ff</button><br>
+     
+		
+<br><div id=ffknots></div></div>
+
+
+<div style="margin-left:130px; padding:20px; float:left; position: relative; background: #f2f8eb;" id=formdiv>
+<p><h4><b><font color=#0d6efd>DP-RH-VP-MSLP</font></b></h4></p>
+			<font color=green>TD</font> :<br>
+			<input type=number class=dataentries id=td step="0.1" min="-50" max="50" size="6"> &nbsp;  <input type=text id=tfixed size="6" disabled><br><br>
+			<font color=green>TW</font> :<br>
+			<input type=number class=dataentries id=tw step="0.1" min="-50" max="50" size="6"> &nbsp;  <input type=text id=twfixed size="6" disabled><br><br>
+			<font color=green>SLP</font> :<br>
+			<input type=number class=dataentries id=slp style="width: 188px;" step="0.1" size="6"><br>
+			<br>
+			<button data-mdb-ripple-inittype="submit" name="submit" value="submit" class="btn btn-primary dataentries" onclick="cal_tdrh()">calculate dp-rh-vp-mslp</button><br>
+     
+		
+<div id=cal></div>
+</div>
+
+</div>
+<script>
+
+  window.addEventListener("DOMContentLoaded", function() { // on page load
+  document.getElementById("formdiv").addEventListener("input", function(e) { // passing the event
+    const tgt = e.target;
+    const id = tgt.id;
+    console.log("You selected",id,tgt.value);
+	
+	value=document.getElementById(id).value;
+	
+	if(value%1!=0)
+	{
+		console.log("move to next input");
+		var elts = document.getElementsByClassName("dataentries");
+		Array.from(elts).forEach(function(elt,index){
+			if(elt.id==id)
+			{
+				console.log("move to next input " + elts[index+1].id);
+				elts[index+1].focus();
+			}
+		})
+	}
+	
+	if(parseFloat(value*10)%2==0)
+		value=(parseFloat(value)+0.0).toFixed(1);
+	
+	
+	
+	if(id == "td")
+	{
+		document.getElementById("tfixed").value=(parseFloat(value)-0.0).toFixed(1);
+	}
+	if(id == "tw")
+	{
+		document.getElementById("twfixed").value=(parseFloat(value)-0.0).toFixed(1);
+	}
+	
+});
+  });
+
+function minmax(value, min, max, oddvalue)
+{
+    if(oddvalue==true && parseFloat(value*10)%2==0)
+    {
+		value=(parseFloat(value)+0.0).toFixed(1);
+		
+		console.log("oddvalue found "+value);
+    }
+    if(parseFloat(value) < min || isNaN(parseFloat(value)))
+        alert("seems invalid value"); 
+    else if(parseFloat(value) > max) 
+        alert("seems value out of range");
+    else 
+		return parseFloat(value);
+    return 0;
+}
+</script>
