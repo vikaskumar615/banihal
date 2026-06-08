@@ -122,7 +122,7 @@ function cal_ff() {
 	 var diff = eval(anemo2/10) - eval(anemo1/10);
 	 var inkmph =  Math.round((diff)/eval(hourdiff));
 	 var inknots = Math.round(((diff)/eval(hourdiff)) * 0.54);
-	 document.getElementById("ffknots").innerHTML = "<font color=red>"+anemo2 + "-" + anemo1 + "<br>" + inkmph + " km / " + inknots + " kt</font>";
+	 document.getElementById("ffknots").innerHTML = "Hour diff = "+hourdiff+"<br><font color=red>"+anemo2 + "-" + anemo1 + "<br>" + inkmph + " kmph / " + inknots + " kts</font>";
 	 ffknotskmph=inkmph;
 	 ffknotsknots=inknots;
 	 }
